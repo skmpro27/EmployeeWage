@@ -10,21 +10,24 @@ public class EmpWage {
 		System.out.println("Welcome to Employee Wages Computation Program");
 		int empHrs = 0;
 		int empWage = 0;
-		int empCheck = (int) (Math.random() * 3);
-		switch (empCheck)
+
+		for (int i = 0; i < 20; i++)
 		{
-			case IS_FULL_TIME:
-				empHrs = 8;
-				break;
+			int empCheck = (int) (Math.random() * 3);
+			switch (empCheck)
+			{
+				case IS_FULL_TIME:
+					empHrs += 8;
+					break;
 
-			case IS_PART_TIME:
-				empHrs = 4;
-				break;
+				case IS_PART_TIME:
+					empHrs += 4;
+					break;
 
-			default:
-				empHrs = 0;
+				default:
+			}
 		}
 		empWage = empHrs * WAGE_PER_HOUR;
-		System.out.println("Employee daily wage: " + empWage);
+		System.out.println("Employee wage for month: " + empWage);
 	}
 }
