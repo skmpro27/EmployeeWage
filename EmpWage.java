@@ -10,9 +10,10 @@ public class EmpWage {
 		System.out.println("Welcome to Employee Wages Computation Program");
 		int empHrs = 0;
 		int empWage = 0;
-
-		for (int i = 0; i < 20; i++)
+		int workingDay = 0;
+		while (workingDay < 20 && empHrs < 100)
 		{
+			workingDay++;
 			int empCheck = (int) (Math.random() * 3);
 			switch (empCheck)
 			{
@@ -26,8 +27,13 @@ public class EmpWage {
 
 				default:
 			}
+			if (empHrs > 100)
+				empHrs = 100;
 		}
 		empWage = empHrs * WAGE_PER_HOUR;
-		System.out.println("Employee wage for month: " + empWage);
+		System.out.println("Employee wages: " + empWage);
+		System.out.println("Number of Working Days: " + workingDay);
+		System.out.println("Number of Working Hours: " + empHrs);
+
 	}
 }
