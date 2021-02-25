@@ -40,9 +40,9 @@ public class EmpWage {
                                 empHrs = NUM_WORKING_HOURS;
                 }
                 System.out.println();
+                System.out.println("Employee wages of " + COMPANY + ": " + (empHrs * WAGE_PER_HOUR));
                 System.out.println("Number of Working Days: " + workingDay);
                 System.out.println("Number of Working Hours: " + empHrs);
-                System.out.println("Employee wages: " + (empHrs * WAGE_PER_HOUR));
         }
 
         public static void main(String args[]) {
