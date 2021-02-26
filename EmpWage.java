@@ -1,26 +1,28 @@
 
 public class EmpWage {
 
-        public static final int IS_FULL_TIME = 1;
-        public static final int IS_PART_TIME = 2;
-        public final int WAGE_PER_HOUR;
-        public final int NUM_WORKING_DAYS;
-        public final int NUM_WORKING_HOURS;
-        public final String COMPANY;
+        private static final int IS_FULL_TIME = 1;
+        private static final int IS_PART_TIME = 2;
 
-        public EmpWage(String str, int perHr, int days, int hrs) {
+	private final int wagePerHr;
+        private final int numWorkingDays;
+        private final int numWorkingHrs;
+        private final String companyName;
+	private int totalEmpWage;
 
-		COMPANY = str;
-                WAGE_PER_HOUR = perHr;
-		NUM_WORKING_DAYS = days;
-		NUM_WORKING_HOURS = hrs;
+        public EmpWage(String companyName, int wagePerHr, int numWorkingDays, int numWorkingHrs) {
+
+		this.companyName = companyName;
+                this.wagePerHr = wagePerHr;
+		this.numWorkingDays = numWorkingDays;
+		this.numWorkingHrs = numWorkingHrs;
         }
 
-        public void empWageCondition() {
+        private void empWageCompute() {
 
                 int empHrs = 0;
                 int workingDay = 0;
-                while (workingDay < NUM_WORKING_DAYS && empHrs < NUM_WORKING_HOURS)
+                while (workingDay < numWorkingDays && empHrs < numWorkingHrs)
                 {
                         workingDay++;
                         int empCheck = (int) (Math.random() * 3);
@@ -36,14 +38,17 @@ public class EmpWage {
 
                                 default:
                         }
-                        if (empHrs > NUM_WORKING_HOURS)
-                                empHrs = NUM_WORKING_HOURS;
+                        if (empHrs > numWorkingHrs)
+                                empHrs = numWorkingHrs;
                 }
-                System.out.println();
-                System.out.println("Employee wages of " + COMPANY + ": " + (empHrs * WAGE_PER_HOUR));
-                System.out.println("Number of Working Days: " + workingDay);
-                System.out.println("Number of Working Hours: " + empHrs);
+                System.out.println("Working Days: " + workingDay + " and Working Hours: " + empHrs);
+		totalEmpWage = empHrs * wagePerHr;
         }
+
+	@Override
+	public String toString() {
+		return "Employee wages of " + companyName + ": " + totalEmpWage;
+	}
 
         public static void main(String args[]) {
 
@@ -52,7 +57,10 @@ public class EmpWage {
                 EmpWage dMart = new EmpWage( "DMart", 20, 20, 100);
                 EmpWage reliance = new EmpWage("Reliance", 30, 25, 120);
 
-		dMart.empWageCondition();
-		reliance.empWageCondition();
+		dMart.empWageCompute();
+		reliance.empWageCompute();
+
+		System.out.println(dMart);
+		System.out.println(reliance);
         }
 }
