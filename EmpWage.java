@@ -15,6 +15,8 @@ class CompanyStandard {
         public  final String companyName;
         public  int totalEmpWage;
 
+        public ArrayList<Integer> dailyWage = new ArrayList<>();
+
         public CompanyStandard(String companyName, int wagePerHr, int numWorkingDays, int numWorkingHrs) {
 
                 this.companyName = companyName;
@@ -22,6 +24,14 @@ class CompanyStandard {
                 this.numWorkingDays = numWorkingDays;
                 this.numWorkingHrs = numWorkingHrs;
         }
+
+	public void setDailyWage(int wageDaily) {
+		dailyWage.add(wageDaily);
+	}
+
+	public int getDailyWage(int idx) {
+		return dailyWage.get(idx);
+	}
 
         public void setTotalWage(int totalEmpWage) {
                 this.totalEmpWage = totalEmpWage;
@@ -38,42 +48,49 @@ public class EmpWage implements IEmpWageCompute {
         private static final int IS_FULL_TIME = 1;
         private static final int IS_PART_TIME = 2;
 
-        private static int numOfCompany = 0;
-        private static ArrayList<CompanyStandard> company = new ArrayList<>();
+	private static int workingDay;
+	private static Map<String,CompanyStandard> company = new HashMap<>();
 
 	public static void addCompany(String companyName, int wagePerHr, int numWorkingDays, int numWorkingHrs) {
-                company.add(new CompanyStandard( companyName, wagePerHr, numWorkingDays, numWorkingHrs));
-		empWageCompute(numOfCompany);
-                System.out.println(company.get(numOfCompany));
-		numOfCompany++;
+                company.put(companyName, new CompanyStandard( companyName, wagePerHr, numWorkingDays, numWorkingHrs));
+		empWageCompute(companyName);
+		for (int i = 0; i < workingDay; i++)
+			System.out.println("Wage of day " + (i+1) + " : " + company.get(companyName).getDailyWage(i));
+                System.out.println(company.get(companyName));
+		System.out.println();
 	}
 
-        public static void empWageCompute(int i) {
+        public static void empWageCompute(String str) {
 
-                int empHrs = 0;
-                int workingDay = 0;
-                while (workingDay < company.get(i).numWorkingDays && empHrs < company.get(i).numWorkingHrs)
+                workingDay = 0;
+		int totalEmpHrs = 0;
+                while (workingDay < company.get(str).numWorkingDays && totalEmpHrs < company.get(str).numWorkingHrs)
                 {
+			int empHrs = 0;
                         workingDay++;
                         int empCheck = (int) (Math.random() * 3);
                         switch (empCheck)
                         {
                                 case IS_FULL_TIME:
-                                        empHrs += 8;
+                                        empHrs = 8;
                                         break;
 
                                 case IS_PART_TIME:
-                                        empHrs += 4;
+                                        empHrs = 4;
                                         break;
 
                                 default:
                         }
-                        if (empHrs > company.get(i).numWorkingHrs)
-                                empHrs = company.get(i).numWorkingHrs;
+			totalEmpHrs += empHrs;
+			if (totalEmpHrs > company.get(str).numWorkingHrs) {
+                                totalEmpHrs = company.get(str).numWorkingHrs;
+				empHrs = empHrs - (totalEmpHrs - company.get(str).numWorkingHrs);
+			}
+			company.get(str).setDailyWage(empHrs * company.get(str).wagePerHr);
                 }
-                System.out.println("Working Days: " + workingDay + " and Working Hours: " + empHrs);
-                int totalWage = empHrs * company.get(i).wagePerHr;
-	        company.get(i).setTotalWage(totalWage);
+                System.out.println("Working Days: " + workingDay + " and Working Hours: " + totalEmpHrs);
+                int totalWage = totalEmpHrs * company.get(str).wagePerHr;
+	        company.get(str).setTotalWage(totalWage);
         }
 
         public static void main(String args[]) {
