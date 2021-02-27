@@ -1,8 +1,10 @@
 
+import java.util.*;
+
 interface IEmpWageCompute {
 	static void addCompany(String companyName, int wagePerHr, int numWorkingDays, int numWorkingHrs) {
 	}
-        static public void empWageCompute(int i) {
+        static void empWageCompute(int i) {
 	}
 }
 
@@ -37,12 +39,12 @@ public class EmpWage implements IEmpWageCompute {
         private static final int IS_PART_TIME = 2;
 
         private static int numOfCompany = 0;
-        private static CompanyStandard company[] = new CompanyStandard[5];
+        private static ArrayList<CompanyStandard> company = new ArrayList<>();
 
 	public static void addCompany(String companyName, int wagePerHr, int numWorkingDays, int numWorkingHrs) {
-                company[numOfCompany] = new CompanyStandard( companyName, wagePerHr, numWorkingDays, numWorkingHrs);
+                company.add(new CompanyStandard( companyName, wagePerHr, numWorkingDays, numWorkingHrs));
 		empWageCompute(numOfCompany);
-                System.out.println(company[numOfCompany]);
+                System.out.println(company.get(numOfCompany));
 		numOfCompany++;
 	}
 
@@ -50,7 +52,7 @@ public class EmpWage implements IEmpWageCompute {
 
                 int empHrs = 0;
                 int workingDay = 0;
-                while (workingDay < company[i].numWorkingDays && empHrs < company[i].numWorkingHrs)
+                while (workingDay < company.get(i).numWorkingDays && empHrs < company.get(i).numWorkingHrs)
                 {
                         workingDay++;
                         int empCheck = (int) (Math.random() * 3);
@@ -66,12 +68,12 @@ public class EmpWage implements IEmpWageCompute {
 
                                 default:
                         }
-                        if (empHrs > company[i].numWorkingHrs)
-                                empHrs = company[i].numWorkingHrs;
+                        if (empHrs > company.get(i).numWorkingHrs)
+                                empHrs = company.get(i).numWorkingHrs;
                 }
                 System.out.println("Working Days: " + workingDay + " and Working Hours: " + empHrs);
-                int totalWage = empHrs * company[i].wagePerHr;
-	        company[i].setTotalWage(totalWage);
+                int totalWage = empHrs * company.get(i).wagePerHr;
+	        company.get(i).setTotalWage(totalWage);
         }
 
         public static void main(String args[]) {
