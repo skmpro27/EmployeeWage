@@ -33,9 +33,13 @@ class CompanyStandard {
 		return dailyWage.get(idx);
 	}
 
-        public void setTotalWage(int totalEmpWage) {
+        public void setTotalEmpWage(int totalEmpWage) {
                 this.totalEmpWage = totalEmpWage;
         }
+
+	public int getTotalEmpWage() {
+		return totalEmpWage;
+	}
 
         @Override
         public String toString() {
@@ -90,7 +94,7 @@ public class EmpWage implements IEmpWageCompute {
                 }
                 System.out.println("Working Days: " + workingDay + " and Working Hours: " + totalEmpHrs);
                 int totalWage = totalEmpHrs * company.get(str).wagePerHr;
-	        company.get(str).setTotalWage(totalWage);
+	        company.get(str).setTotalEmpWage(totalWage);
         }
 
         public static void main(String args[]) {
@@ -99,5 +103,6 @@ public class EmpWage implements IEmpWageCompute {
 
                 addCompany( "DMart", 20, 20, 100);
                 addCompany("Reliance", 30, 25, 120);
+		System.out.println("Total Wage for DMart Company: " + company.get("DMart").getTotalEmpWage());
         }
 }
